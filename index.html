@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="author" content="Nellie Tobey">
+    <meta name="description" content="Template HTML file">
+    <!-- JAVASCRIPT
+    <script type="text/javascript" src="filename.js"></script>
+        -->
+   <script type="text/javascript" src="minesweeper.js"></script>
+    <!-- CSS Stylesheets
+    <link rel="stylesheet" href="filename.css" />
+        -->
+    <link rel="stylesheet" href="minesweeper.css"
+    
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
+    <!-- Font awesome SVG-->
+    <script src="https://kit.fontawesome.com/b570a31fd0.js" crossorigin="anonymous"></script>
+    <!-- github buttons 
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+        -->
+    
+    <title>MineSweeper</title>
+</head>
+<body>
+    <nav>
+        
+        <div>TIME:<h2>coming soon!</h2></div>
+        <button aria-label="Start a New Game" onclick="reload()">New Game</button>
+        
+    </nav>
+    <header>JavaScript MineSweeper</header>
+   
+    <main>
+        <div class="hidden" id="lose">
+            <h1 class="banner">GAME OVER</h1>
+        </div>
+        <div class="hidden" id="win">
+            <h1 class="banner">You WIN!</h1>
+        </div>
+        <div id="field" class="field">
+            <!-- 8 by 8 grid.  64 cells-->
+            <!-- Column 1 -->
+            <div id="row">
+                <div class="cell" id="0:0" value="0:0"></div>
+                <div class="cell" id="0:1" value="0:1"></div>
+                <div class="cell" id="0:2" value="0:2"></div>
+                <div class="cell" id="0:3" value="0:3"></div>
+                <div class="cell" id="0:4" value="0:4"></div>
+                <div class="cell" id="0:5" value="0:5"></div>
+                <div class="cell" id="0:6" value="0:6"></div>
+                <div class="cell" id="0:7" value="0:7"></div>
+                <div class="cell" id="0:8" value="0:8"></div>
+                <div class="cell" id="0:9" value="0:9"></div>
+            </div>
+            <!-- Column 2 -->
+            <div id="row">
+                <div class="cell" id="1:0" value="1:0"></div>
+                <div class="cell" id="1:1" value="1:1"></div>
+                <div class="cell" id="1:2" value="1:2"></div>
+                <div class="cell" id="1:3" value="1:3"></div>
+                <div class="cell" id="1:4" value="1:4"></div>
+                <div class="cell" id="1:5" value="1:5"></div>
+                <div class="cell" id="1:6" value="1:6"></div>
+                <div class="cell" id="1:7" value="1:7"></div>
+                <div class="cell" id="1:8" value="1:8"></div>
+                <div class="cell" id="1:9" value="1:9"></div>
+            </div>
+            <!-- Column 3 -->
+            <div id="row">
+                <div class="cell" id="2:0" value="2:0"></div>
+                <div class="cell" id="2:1" value="2:1"></div>
+                <div class="cell" id="2:2" value="2:2"></div>
+                <div class="cell" id="2:3" value="2:3"></div>
+                <div class="cell" id="2:4" value="2:4"></div>
+                <div class="cell" id="2:5" value="2:5"></div>
+                <div class="cell" id="2:6" value="2:6"></div>
+                <div class="cell" id="2:7" value="2:7"></div>
+                <div class="cell" id="2:8" value="2:8"></div>
+                <div class="cell" id="2:9" value="2:9"></div>
+            </div>
+            <!-- Column 4 -->
+            <div id="row">
+                <div class="cell" id="3:0" value="3:0"></div>
+                <div class="cell" id="3:1" value="3:1"></div>
+                <div class="cell" id="3:2" value="3:2"></div>
+                <div class="cell" id="3:3" value="3:3"></div>
+                <div class="cell" id="3:4" value="3:4"></div>
+                <div class="cell" id="3:5" value="3:5"></div>
+                <div class="cell" id="3:6" value="3:6"></div>
+                <div class="cell" id="3:7" value="3:7"></div>
+                <div class="cell" id="3:8" value="3:8"></div>
+                <div class="cell" id="3:9" value="3:9"></div>
+            </div>
+            <!-- Column 5 -->
+            <div id="row">
+                <div class="cell" id="4:0" value="4:0"></div>
+                <div class="cell" id="4:1" value="4:1"></div>
+                <div class="cell" id="4:2" value="4:2"></div>
+                <div class="cell" id="4:3" value="4:3"></div>
+                <div class="cell" id="4:4" value="4:4"></div>
+                <div class="cell" id="4:5" value="4:5"></div>
+                <div class="cell" id="4:6" value="4:6"></div>
+                <div class="cell" id="4:7" value="4:7"></div>
+                <div class="cell" id="4:8" value="4:8"></div>
+                <div class="cell" id="4:9" value="4:9"></div>
+            </div>
+            <!-- Column 6 -->
+            <div id="row">
+                <div class="cell" id="5:0" value="5:0"></div>
+                <div class="cell" id="5:1" value="5:1"></div>
+                <div class="cell" id="5:2" value="5:2"></div>
+                <div class="cell" id="5:3" value="5:3"></div>
+                <div class="cell" id="5:4" value="5:4"></div>
+                <div class="cell" id="5:5" value="5:5"></div>
+                <div class="cell" id="5:6" value="5:6"></div>
+                <div class="cell" id="5:7" value="5:7"></div>
+                <div class="cell" id="5:8" value="5:8"></div>
+                <div class="cell" id="5:9" value="5:9"></div>
+            </div>
+            <!-- Column 7 -->
+            <div id="row">
+                <div class="cell" id="6:0" value="6:0"></div>
+                <div class="cell" id="6:1" value="6:1"></div>
+                <div class="cell" id="6:2" value="6:2"></div>
+                <div class="cell" id="6:3" value="6:3"></div>
+                <div class="cell" id="6:4" value="6:4"></div>
+                <div class="cell" id="6:5" value="6:5"></div>
+                <div class="cell" id="6:6" value="6:6"></div>
+                <div class="cell" id="6:7" value="6:7"></div>
+                <div class="cell" id="6:8" value="6:8"></div>
+                <div class="cell" id="6:9" value="6:9"></div>
+            </div>
+            <!-- Column 8 -->
+            <div id="row">
+                <div class="cell" id="7:0" value="7:0"></div>
+                <div class="cell" id="7:1" value="7:1"></div>
+                <div class="cell" id="7:2" value="7:2"></div>
+                <div class="cell" id="7:3" value="7:3"></div>
+                <div class="cell" id="7:4" value="7:4"></div>
+                <div class="cell" id="7:5" value="7:5"></div>
+                <div class="cell" id="7:6" value="7:6"></div>
+                <div class="cell" id="7:7" value="7:7"></div>
+                <div class="cell" id="7:8" value="7:8"></div>
+                <div class="cell" id="7:9" value="7:9"></div>
+            </div>
+        <!-- Column 9 -->
+            <div id="row">
+                <div class="cell" id="8:0" value="8:0"></div>
+                <div class="cell" id="8:1" value="8:1"></div>
+                <div class="cell" id="8:2" value="8:2"></div>
+                <div class="cell" id="8:3" value="8:3"></div>
+                <div class="cell" id="8:4" value="8:4"></div>
+                <div class="cell" id="8:5" value="8:5"></div>
+                <div class="cell" id="8:6" value="8:6"></div>
+                <div class="cell" id="8:7" value="8:7"></div>
+                <div class="cell" id="8:8" value="8:8"></div>
+                <div class="cell" id="8:9" value="8:9"></div>
+            </div>
+        <!-- Column 10 -->
+            <div id="row">
+                <div class="cell" id="9:0" value="9:0"></div>
+                <div class="cell" id="9:1" value="9:1"></div>
+                <div class="cell" id="9:2" value="9:2"></div>
+                <div class="cell" id="9:3" value="9:3"></div>
+                <div class="cell" id="9:4" value="9:4"></div>
+                <div class="cell" id="9:5" value="9:5"></div>
+                <div class="cell" id="9:6" value="9:6"></div>
+                <div class="cell" id="9:7" value="9:7"></div>
+                <div class="cell" id="9:8" value="9:8"></div>
+                <div class="cell" id="9:9" value="9:9"></div>
+            </div>
+
+
+
+        </div>
+
+    </main>
+
+</body>
+</html>

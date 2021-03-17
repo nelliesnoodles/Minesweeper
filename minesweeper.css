@@ -1,0 +1,120 @@
+﻿body {
+    padding: 0px 10px;
+    margin: 0;
+    font-family: monospace;
+    background: #eaefea;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: black;
+    color: white;
+}
+
+nav button {
+    background: radial-gradient(90deg, white, silver);
+    border-radius: 15%;
+    font-size: 1rem;
+    padding: 10px;
+    border: 1px solid purple;
+    box-shadow: 0px 1px 5px blue;
+
+}
+
+header {
+    display: flex;
+    width: 100vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.tags {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.score {
+    font-size: 1.5rem;
+    padding: 12px;
+    margin-right: 12px;
+    border: 1px solid green;
+}
+
+main {
+    background-color: olive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 1px 2px silver;
+    height: 50vh;
+    width: 100%;
+}
+
+.field {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    position: absolute;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+.cell {
+    height: 40px;
+    width: 40px;
+    border: 1px solid grey;
+    background-color:ivory;
+    font-size: 2em;
+    text-align: center;
+}
+
+#lose {
+    display: none;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    background: #0000005e;
+    border-top: 5px double green;
+    border-bottom: 5px double green;
+    position: absolute;
+    z-index: 5;
+}
+
+#win {
+    display: none;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    background: #0000005e;
+    border-top: 5px double green;
+    border-bottom: 5px double green;
+    position: absolute;
+    z-index: 5;
+}
+/* MOBILE */
+@media all and (max-width: 799px) and (min-width: 220px) {
+    .cell {
+        height: 30px;
+        width: 30px;
+        font-size: 1rem;
+    }
+    #win, #lose {
+        font-size: 2rem;
+    }
+}
