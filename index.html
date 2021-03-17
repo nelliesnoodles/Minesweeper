@@ -39,11 +39,12 @@
         </div>
         <div>TIME:<h2>coming soon!</h2></div>
         <button aria-label="Start a New Game" onclick="reload()">New Game</button>
-        
+
     </nav>
     <header><h1>Javascript</h1><h1>Mine Sweeper</h1></header>
-   
+    
     <main>
+
         <div class="hidden" id="lose">
             <h1 class="banner">GAME OVER</h1>
         </div>
@@ -156,7 +157,7 @@
                 <div class="cell" id="7:8" value="7:8"></div>
                 <div class="cell" id="7:9" value="7:9"></div>
             </div>
-        <!-- Column 9 -->
+            <!-- Column 9 -->
             <div id="row">
                 <div class="cell" id="8:0" value="8:0"></div>
                 <div class="cell" id="8:1" value="8:1"></div>
@@ -169,7 +170,7 @@
                 <div class="cell" id="8:8" value="8:8"></div>
                 <div class="cell" id="8:9" value="8:9"></div>
             </div>
-        <!-- Column 10 -->
+            <!-- Column 10 -->
             <div id="row">
                 <div class="cell" id="9:0" value="9:0"></div>
                 <div class="cell" id="9:1" value="9:1"></div>
@@ -188,6 +189,14 @@
         </div>
 
     </main>
+    <div class="level-selection">
+        <h5>Coming soon!</h5>
+        <label for="select-level">Choose difficulty:</label>
+        <select name="levels" id="select-level">
+            <option value="easy">Easy</option>
+            <option value="original">Original</option>
+        </select>
+    </div>
 
 </body>
 </html>

@@ -6,6 +6,17 @@ let CorrectlyFlagged = 0
 let AllOthers = 0
 
 
+/* Notes:
+ * For the first version, clicking on a tile with reveal the 8 surrounding tiles.
+ * As I found out via Twitter, the original only revealed the tile clicked, 
+ * Unless it was blank, then all connected blank tiles would be revealed. 
+ * Bombs were never revealed, as clicking on them ended the game.
+ * One could, 'by luck of the draw' recieve a map that required pure guesses, 
+ * and luck to win.  A section may have 4 equally possible bomb locations,
+ * but without clicking on one of the four, there was no way to know.
+ */
+
+
 let Matrix = [
     [[], [], [], [], [], [], [], [], [], []],
     [[], [], [], [], [], [], [], [], [], []],
@@ -18,6 +29,7 @@ let Matrix = [
     [[], [], [], [], [], [], [], [], [], []],
     [[], [], [], [], [], [], [], [], [], []],
 ]
+
 
 
 /*  GAME mechanisms  */
@@ -43,12 +55,16 @@ function get_cell(event) {
         }
         else if (data > 0) {
             event.target.innerHTML = data;
-            event.target.style.backgroundColor = '#b2b2a7';
+            event.target.style.background = '#b2b2a7';
             get_other_cells(x, y)
         }
         else {
-            event.target.style.backgroundColor = "#d8f3f2";
-            event.target.style.border = "1px solid blue";
+            /*
+              element.style.background = "#d8f3f2";
+              element.style.border = "2px solid #0c91df";
+             */
+            event.target.style.background = "#d8f3f2";
+            event.target.style.border = "2px solid #0c91df";
             get_other_cells(x, y)
         }
         item.selected = true;
@@ -62,7 +78,6 @@ function get_cell(event) {
     }
     
 }
-
 
 function get_other_cells(x, y) {
     min = 0
@@ -126,8 +141,8 @@ function check_other(x, y) {
     if (!cell.selected) {
         if (cell.touched == 0) {
 
-            element.style.backgroundColor = "#d8f3f2";
-            element.style.border = "1px solid blue";
+            element.style.background = "#d8f3f2";
+            element.style.border = "2px solid #0c91df";
 
         }
         if (cell.type == 'bomb') {
@@ -142,7 +157,8 @@ function check_other(x, y) {
         }
         if (cell.touched > 0 && cell.touched < 99) {
             //console.log(cellid)
-            element.innerHTML = cell.touched
+            element.innerHTML = cell.touched;
+            element.style.background = "silver";
         }
         else {
             //console.log(`cell is not being changed: ${x}:${y}`)
@@ -346,7 +362,17 @@ function reload() {
     location.reload();
 }
 
-
+function start() {
+    //TODO: map size
+    //*map size: would need to dynamically create Matrix 
+    //*and populate HTML with rows/cells in the field
+    //*cells can still use the same convention with value and ID 
+    //*and be able to retrieve location in the matrix of cell data.
+    //TODO: start timer 
+    //set level 
+    //disable select option 
+    //assign listener action of cells based on level
+}
 
 function setGAME() {
     place_map()
