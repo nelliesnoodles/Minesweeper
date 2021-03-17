@@ -325,6 +325,9 @@ function update_nav() {
     let flagcount = document.querySelector('#flagcount')
     bombcount.innerHTML = BombCount
     flagcount.innerHTML = Flagged
+    if (CorrectlyFlagged + BombCount == 10) {
+        win()
+    }
 }
 
 
