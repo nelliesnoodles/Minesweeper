@@ -1,6 +1,9 @@
 // JavaScript source code
 
 let BombCount = 0
+let Flagged = 0
+let CorrectlyFlagged = 0 
+let AllOthers = 0
 
 
 let Matrix = [
@@ -17,24 +20,12 @@ let Matrix = [
 ]
 
 
+/*  GAME mechanisms  */
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function place_bombs() {
-    let x = 0
-    let y = 0
-    for (i = 0; i < 10; i++) {
-        let ran = getRandomInt(10)
-        let newcell = {
-            flagged: false,
-            type: 'bomb',
-            touched: 999,
-            selected: false
-        }
-        Matrix[i][ran].push(newcell);
-    };
-}
 
 function get_cell(event) {
     let coordinate = event.target
@@ -61,6 +52,7 @@ function get_cell(event) {
             get_other_cells(x, y)
         }
         item.selected = true;
+        update_nav()
         if (BombCount >= 10) {
             win()
         }
@@ -71,20 +63,6 @@ function get_cell(event) {
     
 }
 
-function game_over() {
-    let element = document.querySelector('#lose')
-    element.style.display = 'flex'
-}
-
-function win() {
-    let element = document.querySelector('#win')
-    element.style.display = 'flex'
-
-}
-
-function reload() {
-    location.reload();
-}
 
 function get_other_cells(x, y) {
     min = 0
@@ -154,8 +132,13 @@ function check_other(x, y) {
         }
         if (cell.type == 'bomb') {
             BombCount += 1
+            element.style.backgroundImage = 'none'
             element.style.backgroundColor = 'red'
             element.innerHTML = '[X]'
+            if (cell.flagged) {
+                CorrectlyFlagged -= 1
+                Flagged -= 1
+            }
         }
         if (cell.touched > 0 && cell.touched < 99) {
             //console.log(cellid)
@@ -169,10 +152,48 @@ function check_other(x, y) {
     
 }
 
+/*  CELL set-up */
+
+
+// Reference: Right click
+// Link: https://stackoverflow.com/questions/4235426/how-can-i-capture-the-right-click-event-in-javascript
+function right_click(el) {
+    el.addEventListener('contextmenu', function (ev) {
+        let coords = el.id.split(':')
+        let x = coords[0]
+        let y = coords[1]
+        let container = Matrix[x][y]
+        let cell = container[0]
+        if (cell.flagged == false && cell.selected == false) {
+            el.style.backgroundImage = 'url(' + 'flag.png' + ')';
+            cell.flagged = true;
+            Flagged += 1
+            if (cell.type == 'bomb') {
+                CorrectlyFlagged += 1
+            }
+        }
+        else if (cell.selected == false && cell.flagged == true) {
+            el.style.backgroundImage = 'none';
+            cell.flagged = false
+            Flagged -= 1
+            if (cell.type == 'bomb') {
+                CorrectlyFlagged -= 1
+            }
+
+        }
+
+        ev.preventDefault();
+        update_nav()
+        return false;
+    }, false);
+}
+
+
 function cell_listeners() {
     let allCells = document.querySelectorAll(".cell")
     allCells.forEach(function (item) {
         item.addEventListener('click', get_cell);
+        right_click(item)
     });
 }
 
@@ -196,10 +217,28 @@ function set_cell(x, y) {
     }
 }
 
+/*   MATRIX set-up   */
+
+function place_bombs() {
+    let x = 0
+    let y = 0
+    for (i = 0; i < 10; i++) {
+        let ran = getRandomInt(10)
+        let newcell = {
+            flagged: false,
+            type: 'bomb',
+            touched: 999,
+            selected: false
+        }
+        Matrix[i][ran].push(newcell);
+    };
+}
+
+
 function place_map() {
-    /*[1][2][3],
+    /*  [1][2][3],
         [4][x][5],
-        [6][7][8]*/
+        [6][7][8]  */
     place_bombs()
     max = 9
     min = 0
@@ -279,6 +318,33 @@ function place_blank() {
         };
     };
 }
+/*  GLOBAL GAME Functions  */
+
+function update_nav() {
+    let bombcount = document.querySelector('#bombcount')
+    let flagcount = document.querySelector('#flagcount')
+    bombcount.innerHTML = BombCount
+    flagcount.innerHTML = Flagged
+}
+
+
+function game_over() {
+    let element = document.querySelector('#lose')
+    element.style.display = 'flex'
+}
+
+function win() {
+    let element = document.querySelector('#win')
+    element.style.display = 'flex'
+
+}
+
+function reload() {
+    location.reload();
+}
+
+
+
 function setGAME() {
     place_map()
     place_blank()
