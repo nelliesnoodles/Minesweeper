@@ -41,8 +41,16 @@
         <button aria-label="Start a New Game" onclick="reload()">New Game</button>
 
     </nav>
-    <header><h1>Javascript</h1><h1>Mine Sweeper</h1></header>
-    
+    <div class="level-selection">
+        <button class="level-up" aria-label="start new level" onclick="reload()">Change Level</button>
+        <label for="LEVEL">Choose difficulty:</label>
+        <select name="levels" id="LEVEL">
+            <option>Choose a level.</option>
+            <option value="easy">Easy</option>
+            <option value="original">Original</option>
+        </select>
+    </div>
+    <div class="column"><h3>LEVEL:</h3><h3 id="current_level">easy</h3></div>
     <main>
 
         <div class="hidden" id="lose">
@@ -189,14 +197,8 @@
         </div>
 
     </main>
-    <div class="level-selection">
-        <h5>Coming soon!</h5>
-        <label for="select-level">Choose difficulty:</label>
-        <select name="levels" id="select-level">
-            <option value="easy">Easy</option>
-            <option value="original">Original</option>
-        </select>
-    </div>
+
+
 
 </body>
 </html>

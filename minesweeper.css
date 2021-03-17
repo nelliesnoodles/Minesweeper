@@ -9,8 +9,17 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: black;
+    background: #4c5349;
     color: white;
+}
+
+.column {
+    display: flex;
+    flex-direction: row;
+}
+h3 {
+    margin: 0;
+    font-size: 1.5rem;
 }
 
 .tiny {
@@ -36,18 +45,12 @@ nav button {
 
 }
 
-header {
-    display: flex;
-    width: 100vw;
-    text-align: center;
-    align-items: center;
-    justify-content: space-between;
-    
-}
-header h1 {
-    font-size: 1rem;
-    margin-left: 20px;
-    margin-right: 40px;
+.level-up {
+    padding: 5px;
+    background: #ffc107;
+    color: #180a91;
+    border-radius: 10%;
+    border: 1px solid #ffc107;
 }
 
 .tags {
@@ -66,7 +69,7 @@ header h1 {
 }
 
 main {
-    background-color: olive;
+    background-color: #acb6a8;
     display: flex;
     align-items: center;
     justify-content: center;

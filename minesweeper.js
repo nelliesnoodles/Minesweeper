@@ -4,6 +4,7 @@ let BombCount = 0
 let Flagged = 0
 let CorrectlyFlagged = 0 
 let AllOthers = 0
+let LEVEL = 'easy'
 
 
 /* Notes:
@@ -38,7 +39,45 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+function get_cell2(event) {
+    let coordinate = event.target
+    let coords = coordinate.getAttribute('value')
+    let xy = coords.split(':')
+    let x = parseInt(xy[0])
+    let y = parseInt(xy[1])
+    let cell = Matrix[x][y]
+    let data = cell[0].touched
+    let item = cell[0]
+    if (!item.selected) {
+        if (data == 999) {
+            event.target.style.backgroundImage = "url(" + "bomb.png" + ")";
+            game_over();
+        }
+        else if (data > 0) {
+            event.target.innerHTML = data;
+            event.target.style.background = '#b2b2a7';
+            //get_other_cells(x, y)
+        }
+        else {
+            /*
+              element.style.background = "#d8f3f2";
+              element.style.border = "2px solid #0c91df";
+             */
+            event.target.style.background = "#d8f3f2";
+            event.target.style.border = "2px solid #0c91df";
+            get_other_cells2(x, y)
+        }
+        item.selected = true;
+        update_nav()
+        if (BombCount >= 10) {
+            win()
+        }
+    }
+    else {
+        //console.log(item)
+    }
 
+}
 function get_cell(event) {
     let coordinate = event.target
     let coords = coordinate.getAttribute('value')
@@ -77,6 +116,61 @@ function get_cell(event) {
         //console.log(item)
     }
     
+}
+
+
+function get_other_cells2(x, y) {
+    min = 0
+    max = 9
+    coordx1 = x - 1
+    coordy1 = y - 1
+    if (coordx1 >= min && coordy1 >= min) {
+        //console.log('x1:y1')
+        check_other2(coordx1, coordy1)
+    }
+    coordx2 = x - 1
+    coordy2 = y
+    if (coordx2 >= min) {
+        //console.log('x2: y2')
+        check_other2(coordx2, coordy2)
+    }
+    coordx3 = x - 1
+    coordy3 = y + 1
+    if (coordx3 >= min && coordy3 <= max) {
+        //console.log('x3:y3')
+        check_other2(coordx3, coordy3)
+    }
+    //------------
+    coordx4 = x
+    coordy4 = y - 1
+    if (coordy4 >= min) {
+        //console.log('x4:y4')
+        check_other2(coordx4, coordy4)
+    }
+    coordx5 = x
+    coordy5 = y + 1
+    if (coordy5 <= max) {
+        check_other2(coordx5, coordy5)
+    }
+    //------------
+    coordx6 = x + 1
+    coordy6 = y - 1
+    if (coordx6 <= max && coordy6 >= min) {
+        //console.log('x6:y6')
+        check_other2(coordx6, coordy6)
+    }
+    coordx7 = x + 1
+    coordy7 = y
+    if (coordx7 <= max) {
+        check_other2(coordx7, coordy7)
+    }
+    coordx8 = x + 1
+    coordy8 = y + 1
+    if (coordx8 <= max && coordy8 <= max) {
+        check_other2(coordx8, coordy8)
+    }
+    console.log(x,y)
+
 }
 
 function get_other_cells(x, y) {
@@ -130,6 +224,37 @@ function get_other_cells(x, y) {
         check_other(coordx8, coordy8)
     }
 
+
+}
+
+
+function check_other2(x, y) {
+    let container = Matrix[x][y]
+    let cell = container[0]
+    //console.log(cell.selected)
+    cellid = x.toString() + ":" + y.toString()
+    var element = document.getElementById(cellid)
+    if (!cell.selected) {
+        if (cell.touched == 0) {
+
+            element.style.background = "#d8f3f2";
+            element.style.border = "2px solid #0c91df";
+            cell.selected = true
+            get_other_cells2(x, y)
+
+        }
+       
+        if (cell.touched > 0 && cell.touched < 99) {
+            //console.log(cellid)
+            element.innerHTML = cell.touched;
+            element.style.background = "silver";
+            cell.selected = true
+        }
+        else {
+            //console.log(`cell is not being changed: ${x}:${y}`)
+        }
+        
+    }
 
 }
 
@@ -207,10 +332,19 @@ function right_click(el) {
 
 function cell_listeners() {
     let allCells = document.querySelectorAll(".cell")
-    allCells.forEach(function (item) {
-        item.addEventListener('click', get_cell);
-        right_click(item)
-    });
+    if (LEVEL == 'easy') {
+        allCells.forEach(function (item) {
+            item.addEventListener('click', get_cell);
+            right_click(item)
+        });
+    }
+    else {
+        allCells.forEach(function (item) {
+            item.addEventListener('click', get_cell2);
+            right_click(item)
+        });
+
+    }
 }
 
 function set_cell(x, y) {
@@ -346,6 +480,16 @@ function update_nav() {
     }
 }
 
+function listen_level() {
+    level = document.getElementById('LEVEL');
+    level.addEventListener('change', function () {
+        LEVEL = level.value
+        console.log(`current level= ${LEVEL}`)
+        window.sessionStorage.setItem('level', LEVEL)
+        
+    })
+}
+
 
 function game_over() {
     let element = document.querySelector('#lose')
@@ -373,11 +517,23 @@ function start() {
     //disable select option 
     //assign listener action of cells based on level
 }
+function check_storage() {
+    let level = window.sessionStorage.getItem('level');
+    if (level != null && level != undefined) {
+        LEVEL = level
+        element = document.querySelector('#current_level');
+        element.innerHTML = level
+    }
+    
+}
 
 function setGAME() {
     place_map()
     place_blank()
+    listen_level()
+    check_storage()
     cell_listeners()
+    
     //console.log(Matrix)
 }
 
