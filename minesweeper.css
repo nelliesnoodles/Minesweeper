@@ -102,6 +102,7 @@ main {
     border-top: 2px inset olive;
     border-bottom: 2px inset silver;
     background: #aba8a1;
+    background-size: contain;
 }
 
 #lose {

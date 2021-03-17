@@ -147,9 +147,9 @@ function check_other(x, y) {
         }
         if (cell.type == 'bomb') {
             BombCount += 1
-            element.style.backgroundImage = 'none'
-            element.style.backgroundColor = 'red'
-            element.innerHTML = '[X]'
+            element.style.backgroundImage = 'url(' + 'warn.png' + ')';
+            
+            
             if (cell.flagged) {
                 CorrectlyFlagged -= 1
                 Flagged -= 1
