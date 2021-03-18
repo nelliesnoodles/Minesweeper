@@ -9,6 +9,7 @@
     <!-- JAVASCRIPT
     <script type="text/javascript" src="filename.js"></script>
         -->
+    <script type="text/javascript" src="sounds.js"></script>
    <script type="text/javascript" src="minesweeper.js"></script>
     <!-- CSS Stylesheets
     <link rel="stylesheet" href="filename.css" />
@@ -41,16 +42,33 @@
         <button aria-label="Start a New Game" onclick="reload()">New Game</button>
 
     </nav>
+    <div class="flex-box">
     <div class="level-selection">
-        <button class="level-up" aria-label="start new level" onclick="reload()">Change Level</button>
+        <button class="level-up" 
+                aria-label="start new level" 
+                onclick="reload()">
+                Change Level</button>
+        
         <label for="LEVEL">Choose difficulty:</label>
         <select name="levels" id="LEVEL">
             <option>Choose a level.</option>
             <option value="easy">Easy</option>
             <option value="original">Original</option>
         </select>
+
     </div>
-    <div class="column"><h3>LEVEL:</h3><h3 id="current_level">easy</h3></div>
+    
+    <div class="column">
+        <h3>LEVEL:</h3>
+        <h3 id="current_level">easy</h3>
+        <button id="mute"
+                aria-lable="mute and unmute"
+                onclick="mute()" value="ON">
+            <i class="fas fa-volume-up fa-3x"></i>
+            SOUND ON
+        </button>
+    </div>
+    </div>
     <main>
 
         <div class="hidden" id="lose">
@@ -196,9 +214,14 @@
 
         </div>
 
+    
+
     </main>
 
-
+    <!-- SOUND CREDITS:
+        https://mixkit.co/free-sound-effects/game/?page=2
+        ice cubes: Mark Koenig (*can't find the website now.)
+        -->
 
 </body>
 </html>

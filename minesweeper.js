@@ -5,6 +5,7 @@ let Flagged = 0
 let CorrectlyFlagged = 0 
 let AllOthers = 0
 let LEVEL = 'easy'
+let cleared = 0
 
 
 /* Notes:
@@ -40,6 +41,11 @@ function getRandomInt(max) {
 }
 
 function get_cell2(event) {
+    clearNoise.currentTime = 0
+    clicky.currentTime = 0
+    boom.currentTime = 0
+   
+    
     let coordinate = event.target
     let coords = coordinate.getAttribute('value')
     let xy = coords.split(':')
@@ -54,11 +60,14 @@ function get_cell2(event) {
             game_over();
         }
         else if (data > 0) {
+            clicky.play()
             event.target.innerHTML = data;
             event.target.style.background = '#b2b2a7';
+            cleared += 1
             //get_other_cells(x, y)
         }
         else {
+            clicky.play()
             /*
               element.style.background = "#d8f3f2";
               element.style.border = "2px solid #0c91df";
@@ -66,11 +75,14 @@ function get_cell2(event) {
             event.target.style.background = "#d8f3f2";
             event.target.style.border = "2px solid #0c91df";
             get_other_cells2(x, y)
+            cleared += 1
         }
         item.selected = true;
         update_nav()
         if (BombCount >= 10) {
-            win()
+            if (cleared >= 90) {
+                win()
+            }
         }
     }
     else {
@@ -79,6 +91,8 @@ function get_cell2(event) {
 
 }
 function get_cell(event) {
+    clicky.currentTime = 0
+    boom.currentTime = 0
     let coordinate = event.target
     let coords = coordinate.getAttribute('value')
     let xy = coords.split(':')
@@ -95,6 +109,8 @@ function get_cell(event) {
         else if (data > 0) {
             event.target.innerHTML = data;
             event.target.style.background = '#b2b2a7';
+            cleared += 1
+            clicky.play()
             get_other_cells(x, y)
         }
         else {
@@ -104,16 +120,22 @@ function get_cell(event) {
              */
             event.target.style.background = "#d8f3f2";
             event.target.style.border = "2px solid #0c91df";
+            cleared += 1
             get_other_cells(x, y)
         }
         item.selected = true;
         update_nav()
-        if (BombCount >= 10) {
-            win()
-        }
+        
+       
     }
     else {
         //console.log(item)
+    }
+    if (BombCount >= 10) {
+        console.log(cleared)
+        if (cleared > 90) {
+            win()
+        }
     }
     
 }
@@ -124,6 +146,8 @@ function get_other_cells2(x, y) {
     max = 9
     coordx1 = x - 1
     coordy1 = y - 1
+    clearNoise.currentTime = 0
+    clearNoise.play() 
     if (coordx1 >= min && coordy1 >= min) {
         //console.log('x1:y1')
         check_other2(coordx1, coordy1)
@@ -169,7 +193,7 @@ function get_other_cells2(x, y) {
     if (coordx8 <= max && coordy8 <= max) {
         check_other2(coordx8, coordy8)
     }
-    console.log(x,y)
+    
 
 }
 
@@ -231,6 +255,7 @@ function get_other_cells(x, y) {
 function check_other2(x, y) {
     let container = Matrix[x][y]
     let cell = container[0]
+    
     //console.log(cell.selected)
     cellid = x.toString() + ":" + y.toString()
     var element = document.getElementById(cellid)
@@ -240,6 +265,7 @@ function check_other2(x, y) {
             element.style.background = "#d8f3f2";
             element.style.border = "2px solid #0c91df";
             cell.selected = true
+            cleared += 1
             get_other_cells2(x, y)
 
         }
@@ -248,6 +274,7 @@ function check_other2(x, y) {
             //console.log(cellid)
             element.innerHTML = cell.touched;
             element.style.background = "silver";
+            cleared += 1
             cell.selected = true
         }
         else {
@@ -259,6 +286,8 @@ function check_other2(x, y) {
 }
 
 function check_other(x, y) {
+    clicky.currentTime = 0
+    clicky.play()
     let container = Matrix[x][y]
     let cell = container[0]
     cellid = x.toString() + ":" + y.toString()
@@ -268,6 +297,7 @@ function check_other(x, y) {
 
             element.style.background = "#d8f3f2";
             element.style.border = "2px solid #0c91df";
+            cleared += 1
 
         }
         if (cell.type == 'bomb') {
@@ -284,6 +314,7 @@ function check_other(x, y) {
             //console.log(cellid)
             element.innerHTML = cell.touched;
             element.style.background = "silver";
+            cleared += 1
         }
         else {
             //console.log(`cell is not being changed: ${x}:${y}`)
@@ -300,12 +331,14 @@ function check_other(x, y) {
 // Link: https://stackoverflow.com/questions/4235426/how-can-i-capture-the-right-click-event-in-javascript
 function right_click(el) {
     el.addEventListener('contextmenu', function (ev) {
+        plunk.currentTime=0
         let coords = el.id.split(':')
         let x = coords[0]
         let y = coords[1]
         let container = Matrix[x][y]
         let cell = container[0]
         if (cell.flagged == false && cell.selected == false) {
+            plunk.play()
             el.style.backgroundImage = 'url(' + 'flag.png' + ')';
             cell.flagged = true;
             Flagged += 1
@@ -339,6 +372,7 @@ function cell_listeners() {
         });
     }
     else {
+       
         allCells.forEach(function (item) {
             item.addEventListener('click', get_cell2);
             right_click(item)
@@ -475,8 +509,11 @@ function update_nav() {
     let flagcount = document.querySelector('#flagcount')
     bombcount.innerHTML = BombCount
     flagcount.innerHTML = Flagged
+    
     if (CorrectlyFlagged + BombCount == 10) {
-        win()
+        if (cleared >= 90) {
+            win()
+        }
     }
 }
 
@@ -491,12 +528,16 @@ function listen_level() {
 }
 
 
+
+
 function game_over() {
+    boom.play()
     let element = document.querySelector('#lose')
     element.style.display = 'flex'
 }
 
 function win() {
+    winner.play()
     let element = document.querySelector('#win')
     element.style.display = 'flex'
 
@@ -506,17 +547,6 @@ function reload() {
     location.reload();
 }
 
-function start() {
-    //TODO: map size
-    //*map size: would need to dynamically create Matrix 
-    //*and populate HTML with rows/cells in the field
-    //*cells can still use the same convention with value and ID 
-    //*and be able to retrieve location in the matrix of cell data.
-    //TODO: start timer 
-    //set level 
-    //disable select option 
-    //assign listener action of cells based on level
-}
 function check_storage() {
     let level = window.sessionStorage.getItem('level');
     if (level != null && level != undefined) {
@@ -537,6 +567,39 @@ function setGAME() {
     //console.log(Matrix)
 }
 
+
+function check_sound() {
+
+    MUTEBUTTON = document.getElementById("mute")
+
+    let sound = window.localStorage.getItem('sound')
+    if (sound) {
+        if (sound == 'OFF') {
+            clearNoise.volume = (0)
+            clicky.volume = (0)
+            plunk.volume = (0)
+            boom.volume = (0)
+            winner.volume = (0)
+            MUTEBUTTON.setAttribute('value', 'OFF')
+            MUTEBUTTON.innerHTML = '<i class="fas fa-volume-mute fa-3x"></i>SOUND OFF'
+
+        }
+        else {
+
+            clearNoise.volume = (1)
+            clicky.volume = (0.8)
+            plunk.volume = (0.5)
+            boom.volume = (0.5)
+            winner.volume = (0.5)
+            MUTEBUTTON.setAttribute('value', 'ON')
+            MUTEBUTTON.innerHTML = '<i class="fas fa-volume-up fa-3x"></i>SOUND ON'
+
+        }
+    }
+    console.log(`sound = ${sound}`)
+}
+
 window.onload = function () {
     setGAME()
+    check_sound()
 }
