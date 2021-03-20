@@ -33,12 +33,12 @@
 <body>
     <nav>
         <button id="hamburg"
-                class="hamburg"
                 value="closed"
                 title="Game Options"
                 aria-labelledby="Game Options">
+            Options
 
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-sliders-h"></i>
         </button>
        
         <div class="counter">
@@ -54,12 +54,13 @@
 
     <div class="flex-box" id="GAMEOPTIONS">
         <!-- LEVEL -->
+        <button class="level-up"
+                aria-label="start new level"
+                onclick="reload()">
+            Change Level
+        </button>
         <div class="level-selection">
-            <button class="level-up"
-                    aria-label="start new level"
-                    onclick="reload()">
-                Change Level
-            </button>
+
 
             <label for="LEVEL">Choose difficulty:</label>
             <select name="levels" id="LEVEL">
@@ -77,7 +78,7 @@
                 <option value="20">20 x 20</option>
             </select>
         </div>
-       
+
         <button id="mute"
                 aria-lable="mute and unmute"
                 onclick="mute()" value="ON">
@@ -103,7 +104,9 @@
         <div class="hidden" id="win">
             <h1 class="banner">You WIN!</h1>
         </div>
+        <div class="paddingbox-left"></div>
         <div id="FIELD" class="field">
+           
 
         </div>
 

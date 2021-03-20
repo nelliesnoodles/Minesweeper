@@ -3,6 +3,8 @@
     margin: 0;
     font-family: monospace;
     background: #eaefea;
+    padding-bottom: 300px;
+    
 }
 
 nav {
@@ -89,15 +91,17 @@ nav button {
 
 main {
     background-color: #cdf7f6;
-    position: fixed;
-    
     align-items: center;
     justify-content: center;
     box-shadow: 0px 1px 2px silver;
-    height: 100vh;
+    height: auto;
     width: 100%;
-    margin-bottom: 500px;
-    overflow: scroll;
+   
+}
+
+.paddingbox-left {
+    width: 50px;
+    height: 100%;
 }
 
 .field {
@@ -105,11 +109,12 @@ main {
     align-content: center;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
-    position: relative;
-    background: #516576;
-    margin-bottom: 300px;
-   
+    width: 100vw;
+    border: 5px inset blue;
+    background: #516576;    
+    overflow-x: scroll;
+    overflow-y: scroll;
+    
 }
 
 .row {
@@ -178,6 +183,19 @@ footer h1 {
 }
 /* MOBILE */
 @media all and (max-width: 799px) and (min-width: 220px) {
+    nav {
+        padding: 20px;
+    }
+    .field {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        width: auto;
+    }
+    .flex-box {
+        flex-direction: column;
+        width: 50vw;
+        height: 100vh;
+    }
     .cell {
         height: 30px;
         width: 30px;
@@ -198,7 +216,7 @@ footer h1 {
         background: radial-gradient(90deg, white, silver);
         border-radius: 15%;
         font-size: 10px;
-        padding: 5px;
+        padding: 10px;
         border: 1px solid purple;
         box-shadow: 0px 1px 5px blue;
     }
