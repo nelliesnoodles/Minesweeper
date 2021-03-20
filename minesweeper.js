@@ -425,12 +425,22 @@ function place_bombs() {
         Matrix[i][ran].push(newcell);
         if (double) {
             let ran2 = size - ran
-            //console.log(MAX, size, ran2)
+            console.log(MAX, size, ran2)
             Matrix[i][ran2].push(newcell);
             
         }
 
     };
+}
+
+function checkMAX() {
+    let max = window.localStorage.getItem('ROW')
+    if (max) {
+        MAX = max
+    }
+    else {
+        MAX = 10
+    }
 }
 
 
