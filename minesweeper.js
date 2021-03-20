@@ -6,6 +6,8 @@ let CorrectlyFlagged = 0
 let AllOthers = 0
 let LEVEL = 'easy'
 let cleared = 0
+let MIN = 0
+let MAX = 10
 
 
 /* Notes:
@@ -19,31 +21,21 @@ let cleared = 0
  */
 
 
-let Matrix = [
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-    [[], [], [], [], [], [], [], [], [], []],
-]
-
+let Matrix;
 
 
 /*  GAME mechanisms  */
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+function getRandomInt(MAX) {
+    return Math.floor(Math.random() * Math.floor(MAX));
 }
 
 function get_cell2(event) {
     clearNoise.currentTime = 0
     clicky.currentTime = 0
     boom.currentTime = 0
+
+   
    
     
     let coordinate = event.target
@@ -52,6 +44,7 @@ function get_cell2(event) {
     let x = parseInt(xy[0])
     let y = parseInt(xy[1])
     let cell = Matrix[x][y]
+    //console.log(cell)
     let data = cell[0].touched
     let item = cell[0]
     if (!item.selected) {
@@ -79,8 +72,8 @@ function get_cell2(event) {
         }
         item.selected = true;
         update_nav()
-        if (BombCount >= 10) {
-            if (cleared >= 90) {
+        if (BombCount >= MAX) {
+            if (cleared >= (MAX * MAX) - MAX) {
                 win()
             }
         }
@@ -91,6 +84,11 @@ function get_cell2(event) {
 
 }
 function get_cell(event) {
+    MAX = window.localStorage.getItem('ROW')
+    if (!MAX) {
+        MAX = 10
+    }
+
     clicky.currentTime = 0
     boom.currentTime = 0
     let coordinate = event.target
@@ -131,9 +129,9 @@ function get_cell(event) {
     else {
         //console.log(item)
     }
-    if (BombCount >= 10) {
-        console.log(cleared)
-        if (cleared > 90) {
+    if (BombCount >= MAX) {
+        //console.log(cleared)
+        if (cleared > (MAX*MAX) - MAX) {
             win()
         }
     }
@@ -143,7 +141,8 @@ function get_cell(event) {
 
 function get_other_cells2(x, y) {
     min = 0
-    max = 9
+    indexmax = MAX - 1
+    
     coordx1 = x - 1
     coordy1 = y - 1
     clearNoise.currentTime = 0
@@ -160,7 +159,7 @@ function get_other_cells2(x, y) {
     }
     coordx3 = x - 1
     coordy3 = y + 1
-    if (coordx3 >= min && coordy3 <= max) {
+    if (coordx3 >= min && coordy3 <= indexmax) {
         //console.log('x3:y3')
         check_other2(coordx3, coordy3)
     }
@@ -173,24 +172,24 @@ function get_other_cells2(x, y) {
     }
     coordx5 = x
     coordy5 = y + 1
-    if (coordy5 <= max) {
+    if (coordy5 <= indexmax) {
         check_other2(coordx5, coordy5)
     }
     //------------
     coordx6 = x + 1
     coordy6 = y - 1
-    if (coordx6 <= max && coordy6 >= min) {
+    if (coordx6 <= indexmax && coordy6 >= min) {
         //console.log('x6:y6')
         check_other2(coordx6, coordy6)
     }
     coordx7 = x + 1
     coordy7 = y
-    if (coordx7 <= max) {
+    if (coordx7 <= indexmax) {
         check_other2(coordx7, coordy7)
     }
     coordx8 = x + 1
     coordy8 = y + 1
-    if (coordx8 <= max && coordy8 <= max) {
+    if (coordx8 <= indexmax && coordy8 <= indexmax) {
         check_other2(coordx8, coordy8)
     }
     
@@ -199,7 +198,8 @@ function get_other_cells2(x, y) {
 
 function get_other_cells(x, y) {
     min = 0
-    max = 9
+    
+    indexmax = MAX - 1
     coordx1 = x - 1
     coordy1 = y - 1
     if (coordx1 >= min && coordy1 >= min) {
@@ -214,7 +214,7 @@ function get_other_cells(x, y) {
     }
     coordx3 = x - 1
     coordy3 = y + 1
-    if (coordx3 >= min && coordy3 <= max) {
+    if (coordx3 >= min && coordy3 <= indexmax) {
         //console.log('x3:y3')
         check_other(coordx3, coordy3)
     }
@@ -227,24 +227,24 @@ function get_other_cells(x, y) {
     }
     coordx5 = x
     coordy5 = y + 1
-    if (coordy5 <= max) {
+    if (coordy5 <= indexmax) {
         check_other(coordx5, coordy5)
     }
     //------------
     coordx6 = x + 1
     coordy6 = y - 1
-    if (coordx6 <= max && coordy6 >= min) {
+    if (coordx6 <= indexmax && coordy6 >= min) {
         //console.log('x6:y6')
         check_other(coordx6, coordy6)
     }
     coordx7 = x + 1
     coordy7 = y
-    if (coordx7 <= max) {
+    if (coordx7 <= indexmax) {
         check_other(coordx7, coordy7)
     }
     coordx8 = x + 1
     coordy8 = y + 1
-    if (coordx8 <= max && coordy8 <= max) {
+    if (coordx8 <= indexmax && coordy8 <= indexmax) {
         check_other(coordx8, coordy8)
     }
 
@@ -384,6 +384,7 @@ function cell_listeners() {
 function set_cell(x, y) {
     //console.log(x, y)
     var cell = Matrix[x][y]
+    
     if (cell.length <= 0) {
         var newcell = {
             flagged: false,
@@ -406,8 +407,11 @@ function set_cell(x, y) {
 function place_bombs() {
     let x = 0
     let y = 0
-    for (i = 0; i < 10; i++) {
-        let ran = getRandomInt(10)
+    checkMAX()
+    let size = MAX
+
+    for (i = 0; i < size; i++) {
+        let ran = getRandomInt(size)
         let newcell = {
             flagged: false,
             type: 'bomb',
@@ -418,16 +422,28 @@ function place_bombs() {
     };
 }
 
+function checkMAX() {
+    let max = window.localStorage.getItem('ROW')
+    if (max) {
+        MAX = max
+    }
+    else {
+        MAX = 10
+    }
+}
+
 
 function place_map() {
     /*  [1][2][3],
         [4][x][5],
         [6][7][8]  */
     place_bombs()
-    max = 9
+    checkMAX()
+    indexmax = MAX - 1
     min = 0
-    for (i = 0; i < 10; i++) {
-        for (j = 0; j < 10; j++) {
+    
+    for (i = 0; i < MAX; i++) {
+        for (j = 0; j < MAX; j++) {
             let current = Matrix[i][j]
             if (current.length == 0) {
                 //not a bomb
@@ -448,7 +464,7 @@ function place_map() {
                 }
                 coordx3 = i - 1
                 coordy3 = j + 1
-                if (coordx3 >= min && coordy3 <= max) {
+                if (coordx3 >= min && coordy3 <= indexmax) {
                     //console.log('x3:y3')
                     set_cell(coordx3, coordy3)
                 }
@@ -461,24 +477,24 @@ function place_map() {
                 }
                 coordx5 = i
                 coordy5 = j + 1
-                if (coordy5 <= max) {
+                if (coordy5 <= indexmax) {
                     set_cell(coordx5, coordy5)
                 }
                 //------------
                 coordx6 = i + 1
                 coordy6 = j - 1
-                if (coordx6 <= max && coordy6 >= min) {
+                if (coordx6 <= indexmax && coordy6 >= min) {
                     //console.log('x6:y6')
                     set_cell(coordx6, coordy6)
                 }
                 coordx7 = i + 1
                 coordy7 = j
-                if (coordx7 <= max) {
+                if (coordx7 <= indexmax) {
                     set_cell(coordx7, coordy7)
                 }
                 coordx8 = i + 1
                 coordy8 = j + 1
-                if (coordx8 <= max && coordy8 <= max) {
+                if (coordx8 <= indexmax && coordy8 <= indexmax) {
                     set_cell(coordx8, coordy8)
                 }
             }
@@ -487,8 +503,10 @@ function place_map() {
 }
 
 function place_blank() {
-    for (i = 0; i < 10; i++) {
-        for (j = 0; j < 10; j++) {
+    checkMAX()
+   
+    for (i = 0; i < MAX; i++) {
+        for (j = 0; j < MAX; j++) {
             let current = Matrix[i][j]
             if (current.length <= 0) {
                 var newcell = {
@@ -510,8 +528,8 @@ function update_nav() {
     bombcount.innerHTML = BombCount
     flagcount.innerHTML = Flagged
     
-    if (CorrectlyFlagged + BombCount == 10) {
-        if (cleared >= 90) {
+    if (CorrectlyFlagged + BombCount == MAX) {
+        if (cleared >= (MAX * MAX) - MAX) {
             win()
         }
     }
@@ -521,13 +539,22 @@ function listen_level() {
     level = document.getElementById('LEVEL');
     level.addEventListener('change', function () {
         LEVEL = level.value
-        console.log(`current level= ${LEVEL}`)
         window.sessionStorage.setItem('level', LEVEL)
         
     })
 }
 
+function listen_size() {
+    size = document.getElementById('SIZE') 
+    
+    size.addEventListener('change', function () {
+        SIZE = size.value
+        window.localStorage.setItem('ROW', SIZE)
+        window.localStorage.setItem('COLUMN', SIZE)
+        MAX = SIZE
+    })
 
+}
 
 
 function game_over() {
@@ -549,18 +576,29 @@ function reload() {
 
 function check_storage() {
     let level = window.sessionStorage.getItem('level');
+    let max = window.localStorage.getItem('ROW')
     if (level != null && level != undefined) {
         LEVEL = level
         element = document.querySelector('#current_level');
         element.innerHTML = level
     }
+    if (max != null && max != undefined) {
+        MAX = max
+    }
+    else {
+        console.log('MAX not found!')
+    }
     
 }
 
 function setGAME() {
+    listen_size()
+    Matrix = populate()
+    //console.log(Matrix)
+    createHTMLmatrix()
     place_map()
     place_blank()
-    listen_level()
+    listen_level()    
     check_storage()
     cell_listeners()
     
@@ -600,6 +638,7 @@ function check_sound() {
 }
 
 window.onload = function () {
+    get_set_BURG()
     setGAME()
     check_sound()
 }
