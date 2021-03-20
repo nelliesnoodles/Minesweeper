@@ -383,6 +383,7 @@ function set_cell(x, y) {
 
 /*   MATRIX set-up   */
 
+
 function place_bombs() {
     let x = 0
     let y = 0
@@ -392,9 +393,10 @@ function place_bombs() {
     if (size >= 19) {
         double = true
     }
+   
 
     for (i = 0; i <= size; i++) {
-        let ran = getRandomInt(size)
+        let ran = getRandomInt(size)    
         let newcell = {
             flagged: false,
             type: 'bomb',
@@ -402,12 +404,26 @@ function place_bombs() {
             selected: false
         }
         Matrix[i][ran].push(newcell);
+       
         if (double) {
             let ran2 = size - ran            
-            Matrix[i][ran2].push(newcell);            
+            cell = Matrix[i][ran2]
+            // if the newcell is pushed into a container, all changes 
+            // including the 'selected are mapped to the newcell, even in different 
+            // matrix coordinates.
+            let secondcell = {
+                flagged: false,
+                type: 'bomb',
+                touched: 999,
+                selected: false
+            }
+            if (cell.length <= 0) {
+                cell.push(secondcell)
+            }
         }
     };
 }
+
 
 function checkMAX() {
     let max = window.localStorage.getItem('ROW')
