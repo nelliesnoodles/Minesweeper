@@ -34,17 +34,12 @@ function get_cell2(event) {
     clearNoise.currentTime = 0
     clicky.currentTime = 0
     boom.currentTime = 0
-
-   
-   
-    
     let coordinate = event.target
     let coords = coordinate.getAttribute('value')
     let xy = coords.split(':')
     let x = parseInt(xy[0])
     let y = parseInt(xy[1])
     let cell = Matrix[x][y]
-    //console.log(cell)
     let data = cell[0].touched
     let item = cell[0]
     if (!item.selected) {
@@ -57,7 +52,7 @@ function get_cell2(event) {
             event.target.innerHTML = data;
             event.target.style.background = '#b2b2a7';
             cleared += 1
-            //get_other_cells(x, y)
+            
         }
         else {
             clicky.play()
@@ -79,7 +74,8 @@ function get_cell2(event) {
         }
     }
     else {
-        //console.log(item)
+        message = 'Error in get_cell2() of minesweeper.js'
+        console.log(message)
     }
 
 }
@@ -127,10 +123,11 @@ function get_cell(event) {
        
     }
     else {
-        //console.log(item)
+        message = "Error in get_cell() minesweeper.js"
+        console.log(message)
     }
     if (BombCount >= MAX) {
-        //console.log(cleared)
+        
         if (cleared > (MAX*MAX) - MAX) {
             win()
         }
@@ -148,26 +145,26 @@ function get_other_cells2(x, y) {
     clearNoise.currentTime = 0
     clearNoise.play() 
     if (coordx1 >= min && coordy1 >= min) {
-        //console.log('x1:y1')
+       
         check_other2(coordx1, coordy1)
     }
     coordx2 = x - 1
     coordy2 = y
     if (coordx2 >= min) {
-        //console.log('x2: y2')
+       
         check_other2(coordx2, coordy2)
     }
     coordx3 = x - 1
     coordy3 = y + 1
     if (coordx3 >= min && coordy3 <= indexmax) {
-        //console.log('x3:y3')
+      
         check_other2(coordx3, coordy3)
     }
     //------------
     coordx4 = x
     coordy4 = y - 1
     if (coordy4 >= min) {
-        //console.log('x4:y4')
+        
         check_other2(coordx4, coordy4)
     }
     coordx5 = x
@@ -179,7 +176,7 @@ function get_other_cells2(x, y) {
     coordx6 = x + 1
     coordy6 = y - 1
     if (coordx6 <= indexmax && coordy6 >= min) {
-        //console.log('x6:y6')
+        
         check_other2(coordx6, coordy6)
     }
     coordx7 = x + 1
@@ -203,26 +200,26 @@ function get_other_cells(x, y) {
     coordx1 = x - 1
     coordy1 = y - 1
     if (coordx1 >= min && coordy1 >= min) {
-        //console.log('x1:y1')
+       
         check_other(coordx1, coordy1)
     }
     coordx2 = x - 1
     coordy2 = y
     if (coordx2 >= min) {
-        //console.log('x2: y2')
+       
         check_other(coordx2, coordy2)
     }
     coordx3 = x - 1
     coordy3 = y + 1
     if (coordx3 >= min && coordy3 <= indexmax) {
-        //console.log('x3:y3')
+        
         check_other(coordx3, coordy3)
     }
     //------------
     coordx4 = x
     coordy4 = y - 1
     if (coordy4 >= min) {
-        //console.log('x4:y4')
+       
         check_other(coordx4, coordy4)
     }
     coordx5 = x
@@ -234,7 +231,7 @@ function get_other_cells(x, y) {
     coordx6 = x + 1
     coordy6 = y - 1
     if (coordx6 <= indexmax && coordy6 >= min) {
-        //console.log('x6:y6')
+        
         check_other(coordx6, coordy6)
     }
     coordx7 = x + 1
@@ -255,34 +252,24 @@ function get_other_cells(x, y) {
 function check_other2(x, y) {
     let container = Matrix[x][y]
     let cell = container[0]
-    
-    //console.log(cell.selected)
     cellid = x.toString() + ":" + y.toString()
     var element = document.getElementById(cellid)
     if (!cell.selected) {
         if (cell.touched == 0) {
-
             element.style.background = "#d8f3f2";
             element.style.border = "2px solid #0c91df";
             cell.selected = true
             cleared += 1
             get_other_cells2(x, y)
-
         }
        
-        if (cell.touched > 0 && cell.touched < 99) {
-            //console.log(cellid)
+        if (cell.touched > 0 && cell.touched < 99) {            
             element.innerHTML = cell.touched;
             element.style.background = "silver";
             cleared += 1
             cell.selected = true
-        }
-        else {
-            //console.log(`cell is not being changed: ${x}:${y}`)
-        }
-        
+        }     
     }
-
 }
 
 function check_other(x, y) {
@@ -294,34 +281,29 @@ function check_other(x, y) {
     var element = document.getElementById(cellid)
     if (!cell.selected) {
         if (cell.touched == 0) {
-
             element.style.background = "#d8f3f2";
             element.style.border = "2px solid #0c91df";
             cleared += 1
-
         }
+
         if (cell.type == 'bomb') {
             BombCount += 1
-            element.style.backgroundImage = 'url(' + 'warn.png' + ')';
-            
-            
+            element.style.backgroundImage = 'url(' + 'warn.png' + ')';  
             if (cell.flagged) {
                 CorrectlyFlagged -= 1
                 Flagged -= 1
             }
         }
+
         if (cell.touched > 0 && cell.touched < 99) {
             //console.log(cellid)
             element.innerHTML = cell.touched;
             element.style.background = "silver";
             cleared += 1
         }
-        else {
-            //console.log(`cell is not being changed: ${x}:${y}`)
-        }
+       
         cell.selected = true
-    }
-    
+    }    
 }
 
 /*  CELL set-up */
@@ -353,7 +335,6 @@ function right_click(el) {
             if (cell.type == 'bomb') {
                 CorrectlyFlagged -= 1
             }
-
         }
 
         ev.preventDefault();
@@ -381,10 +362,8 @@ function cell_listeners() {
     }
 }
 
-function set_cell(x, y) {
-    //console.log(x, y)
-    var cell = Matrix[x][y]
-    
+function set_cell(x, y) {   
+    var cell = Matrix[x][y]    
     if (cell.length <= 0) {
         var newcell = {
             flagged: false,
@@ -424,12 +403,9 @@ function place_bombs() {
         }
         Matrix[i][ran].push(newcell);
         if (double) {
-            let ran2 = size - ran
-            console.log(MAX, size, ran2)
-            Matrix[i][ran2].push(newcell);
-            
+            let ran2 = size - ran            
+            Matrix[i][ran2].push(newcell);            
         }
-
     };
 }
 
@@ -464,26 +440,26 @@ function place_map() {
                 coordx1 = i - 1
                 coordy1 = j - 1
                 if (coordx1 >= min && coordy1 >= min) {
-                    //console.log('x1:y1')
+                   
                     set_cell(coordx1, coordy1)
                 }
                 coordx2 = i - 1
                 coordy2 = j
                 if (coordx2 >= min) {
-                    //console.log('x2: y2')
+                    
                     set_cell(coordx2, coordy2)
                 }
                 coordx3 = i - 1
                 coordy3 = j + 1
                 if (coordx3 >= min && coordy3 <= indexmax) {
-                    //console.log('x3:y3')
+                   
                     set_cell(coordx3, coordy3)
                 }
                 //------------
                 coordx4 = i
                 coordy4 = j - 1
                 if (coordy4 >= min) {
-                    //console.log('x4:y4')
+                   
                     set_cell(coordx4, coordy4)
                 }
                 coordx5 = i
@@ -495,7 +471,7 @@ function place_map() {
                 coordx6 = i + 1
                 coordy6 = j - 1
                 if (coordx6 <= indexmax && coordy6 >= min) {
-                    //console.log('x6:y6')
+                    
                     set_cell(coordx6, coordy6)
                 }
                 coordx7 = i + 1
@@ -604,8 +580,7 @@ function check_storage() {
 
 function setGAME() {
     listen_size()
-    Matrix = populate()
-    //console.log(Matrix)
+    Matrix = populate()    
     createHTMLmatrix()
     place_map()
     place_blank()
@@ -613,15 +588,14 @@ function setGAME() {
     check_storage()
     cell_listeners()
     
-    //console.log(Matrix)
 }
 
 
 function check_sound() {
 
     MUTEBUTTON = document.getElementById("mute")
-
     let sound = window.localStorage.getItem('sound')
+
     if (sound) {
         if (sound == 'OFF') {
             clearNoise.volume = (0)
@@ -631,10 +605,9 @@ function check_sound() {
             winner.volume = (0)
             MUTEBUTTON.setAttribute('value', 'OFF')
             MUTEBUTTON.innerHTML = '<i class="fas fa-volume-mute fa-3x"></i>SOUND OFF'
-
         }
-        else {
 
+        else {
             clearNoise.volume = (1)
             clicky.volume = (0.8)
             plunk.volume = (0.5)
@@ -642,10 +615,8 @@ function check_sound() {
             winner.volume = (0.5)
             MUTEBUTTON.setAttribute('value', 'ON')
             MUTEBUTTON.innerHTML = '<i class="fas fa-volume-up fa-3x"></i>SOUND ON'
-
         }
-    }
-    console.log(`sound = ${sound}`)
+    }    
 }
 
 window.onload = function () {

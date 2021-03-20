@@ -64,18 +64,15 @@ function populate(rows = ROWS, columns = COLUMNS) {
 function createHTMLmatrix(rows = ROWS, columns = COLUMNS) {
     let localROW = window.localStorage.getItem('ROW')
     let localCOLUMN = window.localStorage.getItem('COLUMN')
-    console.log(localROW, localCOLUMN)
+    let FIELD = document.querySelector('#FIELD')
+
     if (localROW) {
         rows = localROW
     }
     if (localCOLUMN) {
         columns = localCOLUMN
     }
-
-
-
-
-    let FIELD = document.querySelector('#FIELD')
+   
 
     for (i = 0; i < rows; i++) {
         let row = document.createElement('div')
