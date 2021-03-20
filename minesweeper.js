@@ -408,9 +408,13 @@ function place_bombs() {
     let x = 0
     let y = 0
     checkMAX()
-    let size = MAX
+    let size = MAX - 1
+    let double = false
+    if (size >= 19) {
+        double = true
+    }
 
-    for (i = 0; i < size; i++) {
+    for (i = 0; i <= size; i++) {
         let ran = getRandomInt(size)
         let newcell = {
             flagged: false,
@@ -419,17 +423,14 @@ function place_bombs() {
             selected: false
         }
         Matrix[i][ran].push(newcell);
-    };
-}
+        if (double) {
+            let ran2 = size - ran
+            //console.log(MAX, size, ran2)
+            Matrix[i][ran2].push(newcell);
+            
+        }
 
-function checkMAX() {
-    let max = window.localStorage.getItem('ROW')
-    if (max) {
-        MAX = max
-    }
-    else {
-        MAX = 10
-    }
+    };
 }
 
 
