@@ -173,10 +173,18 @@ main {
     
 }
 
+
 footer {
-    background: black;
+    background: #2e7baa;
     color: white;
+    text-shadow: 1px 1px 0px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-top: 3px double blue;
 }
+
 
 footer h1 {
     color: white;
