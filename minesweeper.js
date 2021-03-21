@@ -8,6 +8,7 @@ let LEVEL = 'easy'
 let cleared = 0
 let MIN = 0
 let MAX = 10
+let BOMBS = 0
 
 
 /* Notes:
@@ -67,11 +68,9 @@ function get_cell2(event) {
         }
         item.selected = true;
         update_nav()
-        if (BombCount >= MAX) {
-            if (cleared >= (MAX * MAX) - MAX) {
-                win()
-            }
-        }
+         if (cleared >= (MAX * MAX) - BOMBS) {
+            win()
+        }     
     }
     else {
         message = 'Error in get_cell2() of minesweeper.js'
@@ -119,20 +118,16 @@ function get_cell(event) {
         }
         item.selected = true;
         update_nav()
+        if (cleared >= (MAX * MAX) - BOMBS) {
+            win()
+        }     
         
        
     }
     else {
         message = "Error in get_cell() minesweeper.js"
         console.log(message)
-    }
-    if (BombCount >= MAX) {
-        
-        if (cleared > (MAX*MAX) - MAX) {
-            win()
-        }
-    }
-    
+    }    
 }
 
 
@@ -404,6 +399,7 @@ function place_bombs() {
             selected: false
         }
         Matrix[i][ran].push(newcell);
+        BOMBS += 1
        
         if (double) {
             let ran2 = size - ran            
@@ -418,6 +414,7 @@ function place_bombs() {
                 selected: false
             }
             if (cell.length <= 0) {
+                BOMBS += 1
                 cell.push(secondcell)
             }
         }
