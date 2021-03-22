@@ -250,6 +250,7 @@ function check_other2(x, y) {
   }
 }
 
+
 function check_other(x, y) {
   clicky.currentTime = 0;
   clicky.play();
@@ -265,7 +266,7 @@ function check_other(x, y) {
       cleared += 1;
     }
 
-    if (cell.type == 'bomb') {
+    else if (cell.type == 'bomb') {
       BombCount += 1;
       element.style.backgroundImage = 'url(' + 'warn.png' + ')';
       if (cell.flagged) {
@@ -274,7 +275,7 @@ function check_other(x, y) {
       }
     }
 
-    if (cell.touched > 0 && cell.touched < 99) {
+    else if (cell.touched > 0 && cell.touched < 99) {
       // console.log(cellid)
       element.innerHTML = cell.touched;
       element.style.background = 'silver';
@@ -288,7 +289,6 @@ function check_other(x, y) {
 
   }
 }
-
 /*  CELL set-up */
 
 
