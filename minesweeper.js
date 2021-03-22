@@ -63,10 +63,9 @@ function getCell2(event) {
     }
     item.selected = true;
     updateNav();
-    total = MAX * MAX - BOMBS
-    console.log("cleared=", cleared)
-    console.log("total=", total)
-    if (cleared >= (MAX * MAX) - BOMBS) {          
+    const total = MAX * MAX - BOMBS
+    
+    if (cleared >= total) {          
     win();
     }
     } else {
