@@ -1,0 +1,14 @@
+{
+  "name": "MineSweeper",
+  "version": "0.0.1",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": false
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
