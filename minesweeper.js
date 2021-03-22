@@ -242,7 +242,7 @@ function checkOther2(x, y) {
       getOtherCells2(x, y);
     }
 
-    if (cell.touched > 0 && cell.touched < 99) {
+    else if (cell.touched > 0 && cell.touched < 99) {
       element.innerHTML = cell.touched;
       element.style.background = 'silver';
       cleared += 1;
