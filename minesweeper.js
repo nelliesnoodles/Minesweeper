@@ -3,10 +3,8 @@
 let BombCount = 0;
 let Flagged = 0;
 let CorrectlyFlagged = 0;
-const AllOthers = 0;
 let LEVEL = 'easy';
 let cleared = 0;
-const MIN = 0;
 let MAX = 10;
 let BOMBS = 0;
 
@@ -31,7 +29,7 @@ function getRandomInt(maximum) {
   return Math.floor(Math.random() * Math.floor(maximum));
 }
 
-function get_cell2(event) {
+function getCell2(event) {
   clearNoise.currentTime = 0;
   clicky.currentTime = 0;
   boom.currentTime = 0;
@@ -45,38 +43,38 @@ function get_cell2(event) {
   const item = cell[0];
   if (!item.selected) {
     if (data == 999) {
-      event.target.style.backgroundImage = 'url(' + 'bomb.png' + ')';
-      game_over();
+          event.target.style.backgroundImage = 'url(' + 'bomb.png' + ')';
+          gameOver();
     } else if (data > 0) {
-      clicky.play();
-      event.target.innerHTML = data;
-      event.target.style.background = '#b2b2a7';
-      cleared += 1;
+          clicky.play();
+          event.target.innerHTML = data;
+          event.target.style.background = '#b2b2a7';
+          cleared += 1;
     } else {
-      clicky.play();
-      /*
-              element.style.background = "#d8f3f2";
-              element.style.border = "2px solid #0c91df";
-             */
-      event.target.style.background = '#d8f3f2';
-      event.target.style.border = '2px solid #0c91df';
-      get_other_cells2(x, y);
-      cleared += 1;
+          clicky.play();
+          /*
+                  element.style.background = "#d8f3f2";
+                  element.style.border = "2px solid #0c91df";
+                 */
+          event.target.style.background = '#d8f3f2';
+          event.target.style.border = '2px solid #0c91df';
+          getOtherCells2(x, y);
+          cleared += 1;
     }
     item.selected = true;
-      update_nav();
-      total = MAX * MAX - BOMBS
-      if (cleared >= (MAX * MAX) - BOMBS) {
-          //console.log("cleared=", cleared)
-          //console.log("total=", total)
-      win();
+    updateNav();
+    total = MAX * MAX - BOMBS
+    console.log("cleared=", cleared)
+    console.log("total=", total)
+    if (cleared >= (MAX * MAX) - BOMBS) {          
+    win();
     }
-  } else {
-    message = 'Error in get_cell2() of minesweeper.js';
+    } else {
+    message = 'Error in getCell2() of minesweeper.js';
     console.log(message);
-  }
+    }
 }
-function get_cell(event) {
+function getCell(event) {
   MAX = window.localStorage.getItem('ROW');
   if (!MAX) {
     MAX = 10;
@@ -97,13 +95,13 @@ function get_cell(event) {
   if (!item.selected) {
     if (data == 999) {
       event.target.style.backgroundImage = 'url(' + 'bomb.png' + ')';
-      game_over();
+      gameOver();
     } else if (data > 0) {
       event.target.innerHTML = data;
       event.target.style.background = '#b2b2a7';
       cleared += 1;
       clicky.play();
-      get_other_cells(x, y);
+      getOtherCells(x, y);
     } else {
       /*
               element.style.background = "#d8f3f2";
@@ -112,23 +110,26 @@ function get_cell(event) {
       event.target.style.background = '#d8f3f2';
       event.target.style.border = '2px solid #0c91df';
       cleared += 1;
-      get_other_cells(x, y);
+      getOtherCells(x, y);
     }
     item.selected = true;
-    update_nav();
+      updateNav();
+      total = MAX*MAX - BOMBS
 
-    if (cleared >= (MAX * MAX) - BOMBS) {
+      if (cleared >= (MAX * MAX) - BOMBS) {
+          console.log("total needed=", total)
+          console.log("cleared=", cleared)
       win();
     }
   } else {
     // console.log('item=', item)
-    message = 'Error in get_cell() minesweeper.js';
+    message = 'Error in getCell() minesweeper.js';
     console.log(message);
   }
 }
 
 
-function get_other_cells2(x, y) {
+function getOtherCells2(x, y) {
   min = 0;
   indexmax = MAX - 1;
 
@@ -137,97 +138,97 @@ function get_other_cells2(x, y) {
   clearNoise.currentTime = 0;
   clearNoise.play();
   if (coordx1 >= min && coordy1 >= min) {
-    check_other2(coordx1, coordy1);
+    checkOther2(coordx1, coordy1);
   }
   coordx2 = x - 1;
   coordy2 = y;
   if (coordx2 >= min) {
-    check_other2(coordx2, coordy2);
+    checkOther2(coordx2, coordy2);
   }
   coordx3 = x - 1;
   coordy3 = y + 1;
   if (coordx3 >= min && coordy3 <= indexmax) {
-    check_other2(coordx3, coordy3);
+    checkOther2(coordx3, coordy3);
   }
   // ------------
   coordx4 = x;
   coordy4 = y - 1;
   if (coordy4 >= min) {
-    check_other2(coordx4, coordy4);
+    checkOther2(coordx4, coordy4);
   }
   coordx5 = x;
   coordy5 = y + 1;
   if (coordy5 <= indexmax) {
-    check_other2(coordx5, coordy5);
+    checkOther2(coordx5, coordy5);
   }
   // ------------
   coordx6 = x + 1;
   coordy6 = y - 1;
   if (coordx6 <= indexmax && coordy6 >= min) {
-    check_other2(coordx6, coordy6);
+    checkOther2(coordx6, coordy6);
   }
   coordx7 = x + 1;
   coordy7 = y;
   if (coordx7 <= indexmax) {
-    check_other2(coordx7, coordy7);
+    checkOther2(coordx7, coordy7);
   }
   coordx8 = x + 1;
   coordy8 = y + 1;
   if (coordx8 <= indexmax && coordy8 <= indexmax) {
-    check_other2(coordx8, coordy8);
+    checkOther2(coordx8, coordy8);
   }
 }
 
-function get_other_cells(x, y) {
+function getOtherCells(x, y) {
   min = 0;
 
   indexmax = MAX - 1;
   coordx1 = x - 1;
   coordy1 = y - 1;
   if (coordx1 >= min && coordy1 >= min) {
-    check_other(coordx1, coordy1);
+    checkOther(coordx1, coordy1);
   }
   coordx2 = x - 1;
   coordy2 = y;
   if (coordx2 >= min) {
-    check_other(coordx2, coordy2);
+    checkOther(coordx2, coordy2);
   }
   coordx3 = x - 1;
   coordy3 = y + 1;
   if (coordx3 >= min && coordy3 <= indexmax) {
-    check_other(coordx3, coordy3);
+    checkOther(coordx3, coordy3);
   }
   // ------------
   coordx4 = x;
   coordy4 = y - 1;
   if (coordy4 >= min) {
-    check_other(coordx4, coordy4);
+    checkOther(coordx4, coordy4);
   }
   coordx5 = x;
   coordy5 = y + 1;
   if (coordy5 <= indexmax) {
-    check_other(coordx5, coordy5);
+    checkOther(coordx5, coordy5);
   }
   // ------------
   coordx6 = x + 1;
   coordy6 = y - 1;
   if (coordx6 <= indexmax && coordy6 >= min) {
-    check_other(coordx6, coordy6);
+    checkOther(coordx6, coordy6);
   }
   coordx7 = x + 1;
   coordy7 = y;
   if (coordx7 <= indexmax) {
-    check_other(coordx7, coordy7);
+    checkOther(coordx7, coordy7);
   }
   coordx8 = x + 1;
   coordy8 = y + 1;
   if (coordx8 <= indexmax && coordy8 <= indexmax) {
-    check_other(coordx8, coordy8);
+    checkOther(coordx8, coordy8);
   }
 }
 
 
-function check_other2(x, y) {
+function checkOther2(x, y) {
   const container = Matrix[x][y];
   const cell = container[0];
   cellid = x.toString() + ':' + y.toString();
@@ -238,7 +239,7 @@ function check_other2(x, y) {
       element.style.border = '2px solid #0c91df';
       cell.selected = true;
       cleared += 1;
-      get_other_cells2(x, y);
+      getOtherCells2(x, y);
     }
 
     if (cell.touched > 0 && cell.touched < 99) {
@@ -250,8 +251,7 @@ function check_other2(x, y) {
   }
 }
 
-
-function check_other(x, y) {
+function checkOther(x, y) {
   clicky.currentTime = 0;
   clicky.play();
   const container = Matrix[x][y];
@@ -289,12 +289,13 @@ function check_other(x, y) {
 
   }
 }
+
 /*  CELL set-up */
 
 
 // Reference: Right click
 // Link: https://stackoverflow.com/questions/4235426/how-can-i-capture-the-right-click-event-in-javascript
-function right_click(el) {
+function rightClick(el) {
   el.addEventListener('contextmenu', function(ev) {
     plunk.currentTime=0;
     const coords = el.id.split(':');
@@ -320,28 +321,28 @@ function right_click(el) {
     }
 
     ev.preventDefault();
-    update_nav();
+    updateNav();
     return false;
   }, false);
 }
 
 
-function cell_listeners() {
+function cellListeners() {
   const allCells = document.querySelectorAll('.cell');
   if (LEVEL == 'easy') {
     allCells.forEach(function(item) {
-      item.addEventListener('click', get_cell);
-      right_click(item);
+      item.addEventListener('click', getCell);
+      rightClick(item);
     });
   } else {
     allCells.forEach(function(item) {
-      item.addEventListener('click', get_cell2);
-      right_click(item);
+      item.addEventListener('click', getCell2);
+      rightClick(item);
     });
   }
 }
 
-function set_cell(x, y) {
+function setCell(x, y) {
   const cell = Matrix[x][y];
   if (cell.length <= 0) {
     const newcell = {
@@ -361,9 +362,7 @@ function set_cell(x, y) {
 
 /*   MATRIX set-up   */
 
-function place_bombs() {
-  const x = 0;
-  const y = 0;
+function placeBombs() {
   checkMAX();
   const size = MAX - 1;
   let double = false;
@@ -413,11 +412,11 @@ function checkMAX() {
 }
 
 
-function place_map() {
+function placeMap() {
   /*  [1][2][3],
         [4][x][5],
         [6][7][8]  */
-  place_bombs();
+  placeBombs();
   checkMAX();
   indexmax = MAX - 1;
   min = 0;
@@ -431,51 +430,51 @@ function place_map() {
         coordx1 = i - 1;
         coordy1 = j - 1;
         if (coordx1 >= min && coordy1 >= min) {
-          set_cell(coordx1, coordy1);
+          setCell(coordx1, coordy1);
         }
         coordx2 = i - 1;
         coordy2 = j;
         if (coordx2 >= min) {
-          set_cell(coordx2, coordy2);
+          setCell(coordx2, coordy2);
         }
         coordx3 = i - 1;
         coordy3 = j + 1;
         if (coordx3 >= min && coordy3 <= indexmax) {
-          set_cell(coordx3, coordy3);
+          setCell(coordx3, coordy3);
         }
         // ------------
         coordx4 = i;
         coordy4 = j - 1;
         if (coordy4 >= min) {
-          set_cell(coordx4, coordy4);
+          setCell(coordx4, coordy4);
         }
         coordx5 = i;
         coordy5 = j + 1;
         if (coordy5 <= indexmax) {
-          set_cell(coordx5, coordy5);
+          setCell(coordx5, coordy5);
         }
         // ------------
         coordx6 = i + 1;
         coordy6 = j - 1;
         if (coordx6 <= indexmax && coordy6 >= min) {
-          set_cell(coordx6, coordy6);
+          setCell(coordx6, coordy6);
         }
         coordx7 = i + 1;
         coordy7 = j;
         if (coordx7 <= indexmax) {
-          set_cell(coordx7, coordy7);
+          setCell(coordx7, coordy7);
         }
         coordx8 = i + 1;
         coordy8 = j + 1;
         if (coordx8 <= indexmax && coordy8 <= indexmax) {
-          set_cell(coordx8, coordy8);
+          setCell(coordx8, coordy8);
         }
       }
     };
   };
 }
 
-function place_blank() {
+function placeBlank() {
   checkMAX();
 
   for (i = 0; i < MAX; i++) {
@@ -495,7 +494,7 @@ function place_blank() {
 }
 /*  GLOBAL GAME Functions  */
 
-function update_nav() {
+function updateNav() {
   const bombcount = document.querySelector('#bombcount');
   const flagcount = document.querySelector('#flagcount');
   bombcount.innerHTML = BombCount;
@@ -508,7 +507,7 @@ function update_nav() {
   }
 }
 
-function listen_level() {
+function listenLevel() {
   level = document.getElementById('LEVEL');
   level.addEventListener('change', function() {
     LEVEL = level.value;
@@ -516,7 +515,7 @@ function listen_level() {
   });
 }
 
-function listen_size() {
+function listenSize() {
   size = document.getElementById('SIZE');
 
   size.addEventListener('change', function() {
@@ -528,7 +527,7 @@ function listen_size() {
 }
 
 
-function game_over() {
+function gameOver() {
   boom.play();
   const element = document.querySelector('#lose');
   element.style.display = 'flex';
@@ -544,7 +543,7 @@ function reload() {
   location.reload();
 }
 
-function check_storage() {
+function checkStorage() {
   const level = window.sessionStorage.getItem('level');
   const max = window.localStorage.getItem('ROW');
   if (level != null && level != undefined) {
@@ -560,18 +559,18 @@ function check_storage() {
 }
 
 function setGAME() {
-  listen_size();
+  listenSize();
   Matrix = populate();
   createHTMLmatrix();
-  place_map();
-  place_blank();
-  listen_level();
-  check_storage();
-  cell_listeners();
+  placeMap();
+  placeBlank();
+  listenLevel();
+  checkStorage();
+  cellListeners();
 }
 
 
-function check_sound() {
+function checkSound() {
   MUTEBUTTON = document.getElementById('mute');
   const sound = window.localStorage.getItem('sound');
 
@@ -597,7 +596,7 @@ function check_sound() {
 }
 
 window.onload = function() {
-  get_set_BURG();
+  getSetBurg();
   setGAME();
-  check_sound();
+  checkSound();
 };

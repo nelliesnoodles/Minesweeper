@@ -20,7 +20,7 @@ function hideshowOptions() {
     console.log("hamburg clicked.")
 
 }
-function get_set_BURG() {
+function getSetBurg() {
     let BURG = document.getElementById('hamburg')
     BURG.addEventListener('click', hideshowOptions);
 }
