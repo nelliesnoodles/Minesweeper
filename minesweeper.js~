@@ -74,8 +74,8 @@ function getCell(event) {
       total = MAX*MAX - BOMBS
 
       if (cleared >= (MAX * MAX) - BOMBS) {
-          // console.log("total needed=", total)
-          // console.log("cleared=", cleared)
+          console.log("total needed=", total)
+          console.log("cleared=", cleared)
       win();
     }
   } else {
@@ -197,7 +197,7 @@ function getCell2(event) {
           event.target.innerHTML = data;
           event.target.style.background = '#b2b2a7';
           cleared += 1;
-          // console.log("numbered cell", cleared);  
+          console.log("numbered cell", cleared);  
     } else {
           clicky.play();
           /*
@@ -207,13 +207,13 @@ function getCell2(event) {
           event.target.style.background = '#d8f3f2';
           event.target.style.border = '2px solid #0c91df';
           getOtherCells2(x, y);
-          // cleared += 1;
-          // console.log("water cell", cleared);
+          //cleared += 1;
+          console.log("water cell", cleared);
     }
     item.selected = true;
     updateNav();
     const total = MAX * MAX - BOMBS
-    // console.log('cleared=', cleared, 'total=', total)
+    console.log('cleared=', cleared, 'total=', total)
     if (cleared >= total) {          
     win();
     }
@@ -286,7 +286,7 @@ function checkOther2(x, y) {
       element.style.border = '2px solid #0c91df';
       cell.selected = true;
       cleared += 1;
-      //console.log("checkOTHER, watercell:", cleared)
+      console.log("checkOTHER, watercell:", cleared)
       getOtherCells2(x, y);
     }
 
@@ -295,7 +295,7 @@ function checkOther2(x, y) {
       element.style.background = 'silver';
       cleared += 1;
       cell.selected = true;
-      // console.log("CHECKOTHER, numbered cell", cleared)
+      console.log("CHECKOTHER, numbered cell", cleared)
     }
   }
 }
@@ -565,7 +565,7 @@ function checkStorage() {
   if (max != null && max != undefined) {
     MAX = max;
   } else {
-    // console.log('MAX not found!');
+    console.log('MAX not found!');
   }
 }
 
