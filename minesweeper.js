@@ -29,50 +29,8 @@ function getRandomInt(maximum) {
   return Math.floor(Math.random() * Math.floor(maximum));
 }
 
-function getCell2(event) {
-  clearNoise.currentTime = 0;
-  clicky.currentTime = 0;
-  boom.currentTime = 0;
-  const coordinate = event.target;
-  const coords = coordinate.getAttribute('value');
-  const xy = coords.split(':');
-  const x = parseInt(xy[0]);
-  const y = parseInt(xy[1]);
-  const cell = Matrix[x][y];
-  const data = cell[0].touched;
-  const item = cell[0];
-  if (!item.selected) {
-    if (data == 999) {
-          event.target.style.backgroundImage = 'url(' + 'bomb.png' + ')';
-          gameOver();
-    } else if (data > 0) {
-          clicky.play();
-          event.target.innerHTML = data;
-          event.target.style.background = '#b2b2a7';
-          cleared += 1;
-    } else {
-          clicky.play();
-          /*
-                  element.style.background = "#d8f3f2";
-                  element.style.border = "2px solid #0c91df";
-                 */
-          event.target.style.background = '#d8f3f2';
-          event.target.style.border = '2px solid #0c91df';
-          getOtherCells2(x, y);
-          cleared += 1;
-    }
-    item.selected = true;
-    updateNav();
-    const total = MAX * MAX - BOMBS
-    
-    if (cleared >= total) {          
-    win();
-    }
-    } else {
-    message = 'Error in getCell2() of minesweeper.js';
-    console.log(message);
-    }
-}
+
+// --- LEVEL EASY --- //
 function getCell(event) {
   MAX = window.localStorage.getItem('ROW');
   if (!MAX) {
@@ -116,8 +74,8 @@ function getCell(event) {
       total = MAX*MAX - BOMBS
 
       if (cleared >= (MAX * MAX) - BOMBS) {
-          console.log("total needed=", total)
-          console.log("cleared=", cleared)
+          // console.log("total needed=", total)
+          // console.log("cleared=", cleared)
       win();
     }
   } else {
@@ -125,6 +83,144 @@ function getCell(event) {
     message = 'Error in getCell() minesweeper.js';
     console.log(message);
   }
+}
+
+
+function checkOther(x, y) {
+  clicky.currentTime = 0;
+  clicky.play();
+  const container = Matrix[x][y];
+  const cell = container[0];
+  cellid = x.toString() + ':' + y.toString();
+  const element = document.getElementById(cellid);
+
+  if (!cell.selected) {
+    if (cell.touched == 0) {
+      element.style.background = '#d8f3f2';
+      element.style.border = '2px solid #0c91df';
+      cleared += 1;
+    }
+
+    else if (cell.type == 'bomb') {
+      BombCount += 1;
+      element.style.backgroundImage = 'url(' + 'warn.png' + ')';
+      if (cell.flagged) {
+        CorrectlyFlagged -= 1;
+        Flagged -= 1;
+      }
+    }
+
+    else if (cell.touched > 0 && cell.touched < 99) {
+      // console.log(cellid)
+      element.innerHTML = cell.touched;
+      element.style.background = 'silver';
+      cleared += 1;
+    }
+
+    cell.selected = true;
+  } else {
+    // console.log("Cell is marked as selected")
+    // console.log(cell)
+
+  }
+}
+
+
+
+function getOtherCells(x, y) {
+  min = 0;
+
+  indexmax = MAX - 1;
+  coordx1 = x - 1;
+  coordy1 = y - 1;
+  if (coordx1 >= min && coordy1 >= min) {
+    checkOther(coordx1, coordy1);
+  }
+  coordx2 = x - 1;
+  coordy2 = y;
+  if (coordx2 >= min) {
+    checkOther(coordx2, coordy2);
+  }
+  coordx3 = x - 1;
+  coordy3 = y + 1;
+  if (coordx3 >= min && coordy3 <= indexmax) {
+    checkOther(coordx3, coordy3);
+  }
+  // ------------
+  coordx4 = x;
+  coordy4 = y - 1;
+  if (coordy4 >= min) {
+    checkOther(coordx4, coordy4);
+  }
+  coordx5 = x;
+  coordy5 = y + 1;
+  if (coordy5 <= indexmax) {
+    checkOther(coordx5, coordy5);
+  }
+  // ------------
+  coordx6 = x + 1;
+  coordy6 = y - 1;
+  if (coordx6 <= indexmax && coordy6 >= min) {
+    checkOther(coordx6, coordy6);
+  }
+  coordx7 = x + 1;
+  coordy7 = y;
+  if (coordx7 <= indexmax) {
+    checkOther(coordx7, coordy7);
+  }
+  coordx8 = x + 1;
+  coordy8 = y + 1;
+  if (coordx8 <= indexmax && coordy8 <= indexmax) {
+    checkOther(coordx8, coordy8);
+  }
+}
+
+// --- LEVEL classic ---//
+function getCell2(event) {
+  clearNoise.currentTime = 0;
+  clicky.currentTime = 0;
+  boom.currentTime = 0;
+  const coordinate = event.target;
+  const coords = coordinate.getAttribute('value');
+  const xy = coords.split(':');
+  const x = parseInt(xy[0]);
+  const y = parseInt(xy[1]);
+  const cell = Matrix[x][y];
+  const data = cell[0].touched;
+  const item = cell[0];
+  if (!item.selected) {
+    if (data == 999) {
+          event.target.style.backgroundImage = 'url(' + 'bomb.png' + ')';
+          gameOver();
+    } else if (data > 0 && data < 99)  {
+          clicky.play();
+          event.target.innerHTML = data;
+          event.target.style.background = '#b2b2a7';
+          cleared += 1;
+          // console.log("numbered cell", cleared);  
+    } else {
+          clicky.play();
+          /*
+                  element.style.background = "#d8f3f2";
+                  element.style.border = "2px solid #0c91df";
+                 */
+          event.target.style.background = '#d8f3f2';
+          event.target.style.border = '2px solid #0c91df';
+          getOtherCells2(x, y);
+          // cleared += 1;
+          // console.log("water cell", cleared);
+    }
+    item.selected = true;
+    updateNav();
+    const total = MAX * MAX - BOMBS
+    // console.log('cleared=', cleared, 'total=', total)
+    if (cleared >= total) {          
+    win();
+    }
+    } else {
+    message = 'Error in getCell2() of minesweeper.js';
+    console.log(message);
+    }
 }
 
 
@@ -178,54 +274,6 @@ function getOtherCells2(x, y) {
   }
 }
 
-function getOtherCells(x, y) {
-  min = 0;
-
-  indexmax = MAX - 1;
-  coordx1 = x - 1;
-  coordy1 = y - 1;
-  if (coordx1 >= min && coordy1 >= min) {
-    checkOther(coordx1, coordy1);
-  }
-  coordx2 = x - 1;
-  coordy2 = y;
-  if (coordx2 >= min) {
-    checkOther(coordx2, coordy2);
-  }
-  coordx3 = x - 1;
-  coordy3 = y + 1;
-  if (coordx3 >= min && coordy3 <= indexmax) {
-    checkOther(coordx3, coordy3);
-  }
-  // ------------
-  coordx4 = x;
-  coordy4 = y - 1;
-  if (coordy4 >= min) {
-    checkOther(coordx4, coordy4);
-  }
-  coordx5 = x;
-  coordy5 = y + 1;
-  if (coordy5 <= indexmax) {
-    checkOther(coordx5, coordy5);
-  }
-  // ------------
-  coordx6 = x + 1;
-  coordy6 = y - 1;
-  if (coordx6 <= indexmax && coordy6 >= min) {
-    checkOther(coordx6, coordy6);
-  }
-  coordx7 = x + 1;
-  coordy7 = y;
-  if (coordx7 <= indexmax) {
-    checkOther(coordx7, coordy7);
-  }
-  coordx8 = x + 1;
-  coordy8 = y + 1;
-  if (coordx8 <= indexmax && coordy8 <= indexmax) {
-    checkOther(coordx8, coordy8);
-  }
-}
-
 
 function checkOther2(x, y) {
   const container = Matrix[x][y];
@@ -238,6 +286,7 @@ function checkOther2(x, y) {
       element.style.border = '2px solid #0c91df';
       cell.selected = true;
       cleared += 1;
+      //console.log("checkOTHER, watercell:", cleared)
       getOtherCells2(x, y);
     }
 
@@ -246,48 +295,11 @@ function checkOther2(x, y) {
       element.style.background = 'silver';
       cleared += 1;
       cell.selected = true;
+      // console.log("CHECKOTHER, numbered cell", cleared)
     }
   }
 }
 
-function checkOther(x, y) {
-  clicky.currentTime = 0;
-  clicky.play();
-  const container = Matrix[x][y];
-  const cell = container[0];
-  cellid = x.toString() + ':' + y.toString();
-  const element = document.getElementById(cellid);
-
-  if (!cell.selected) {
-    if (cell.touched == 0) {
-      element.style.background = '#d8f3f2';
-      element.style.border = '2px solid #0c91df';
-      cleared += 1;
-    }
-
-    else if (cell.type == 'bomb') {
-      BombCount += 1;
-      element.style.backgroundImage = 'url(' + 'warn.png' + ')';
-      if (cell.flagged) {
-        CorrectlyFlagged -= 1;
-        Flagged -= 1;
-      }
-    }
-
-    else if (cell.touched > 0 && cell.touched < 99) {
-      // console.log(cellid)
-      element.innerHTML = cell.touched;
-      element.style.background = 'silver';
-      cleared += 1;
-    }
-
-    cell.selected = true;
-  } else {
-    // console.log("Cell is marked as selected")
-    // console.log(cell)
-
-  }
-}
 
 /*  CELL set-up */
 
@@ -553,7 +565,7 @@ function checkStorage() {
   if (max != null && max != undefined) {
     MAX = max;
   } else {
-    console.log('MAX not found!');
+    // console.log('MAX not found!');
   }
 }
 
