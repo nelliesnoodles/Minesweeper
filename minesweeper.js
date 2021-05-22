@@ -196,7 +196,8 @@ function getCell2(event) {
           clicky.play();
           event.target.innerHTML = data;
           event.target.style.background = '#b2b2a7';
-          cleared += 1;
+        cleared += 1;
+        //console.log('cleared(single cell)=', cleared)
           // console.log("numbered cell", cleared);  
     } else {
           clicky.play();
@@ -287,6 +288,7 @@ function checkOther2(x, y) {
       cell.selected = true;
       cleared += 1;
       //console.log("checkOTHER, watercell:", cleared)
+      // console.log('cleared=', cleared)
       getOtherCells2(x, y);
     }
 
@@ -294,7 +296,8 @@ function checkOther2(x, y) {
       element.innerHTML = cell.touched;
       element.style.background = 'silver';
       cleared += 1;
-      cell.selected = true;
+        cell.selected = true;
+        // console.log('cleared=', cleared)
       // console.log("CHECKOTHER, numbered cell", cleared)
     }
   }
