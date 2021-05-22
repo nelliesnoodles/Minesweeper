@@ -604,6 +604,16 @@ function checkSound() {
       MUTEBUTTON.innerHTML = '<i class="fas fa-volume-up fa-3x"></i>SOUND ON';
     }
   }
+  else {
+    window.localStorage.setItem('sound', 'OFF');
+    clearNoise.volume = (0);
+    clicky.volume = (0);
+    plunk.volume = (0);
+    boom.volume = (0);
+    winner.volume = (0);
+    MUTEBUTTON.setAttribute('value', 'OFF');
+    MUTEBUTTON.innerHTML = '<i class="fas fa-volume-mute fa-3x"></i>SOUND OFF';
+  }
 }
 
 window.onload = function() {
