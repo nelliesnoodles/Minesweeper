@@ -1,4 +1,5 @@
 # Minesweeper
+# [PLAY](https://nelliesnoodles.github.io/Minesweeper/)
 An iteration of the classic game MineSweeper
 
 
